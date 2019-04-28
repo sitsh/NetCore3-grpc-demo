@@ -9,4 +9,10 @@
     <ProjectReference Include="..\Greeter\Greeter.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="localhostdevcert.pem">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

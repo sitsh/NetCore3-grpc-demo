@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "GRpc.NetCoreWebAppHostServer": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "nativeDebugging": false,
+      "applicationUrl": "http://localhost:50051"
+    }
+  }
+}

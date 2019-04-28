@@ -1,0 +1,11 @@
+https://localhost:8080
+
+tls  C:\WorkSpaces\tmp\grpcNetCoroDemo\src\GRpc.NetCoreWebAppHostServer\wwwroot\localhostpubliccert.pem C:\WorkSpaces\tmp\grpcNetCoroDemo\src\GRpc.NetCoreWebAppHostServer\wwwroot\localhostprivatekey.pem 
+
+proxy / https://localhost:50051 {
+	#header_upstream Host {host}
+	#header_upstream X-Real-IP {remote}
+	#header_upstream X-Forwarded-For {remote}
+	#header_upstream X-Forwarded-Port {server_port}
+	#header_upstream X-Forwarded-Proto {scheme}
+}

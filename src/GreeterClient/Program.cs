@@ -24,32 +24,44 @@ namespace GreeterClient
     {
         public static void Main(string[] args)
         {
-            Channel channel = new Channel("localhost:11290", ChannelCredentials.Insecure);
+            string rootpath = AppDomain.CurrentDomain.BaseDirectory;
+            var filepath = Path.Combine(rootpath, "localhostdevcert.pem");
 
-            var client = new PostFile.PostFileClient(channel);
+            string pem = File.ReadAllText(filepath);
 
-            MemoryStream mbStream = FileHelp.GetTestStream();
-            mbStream.Position = 0;
+            SslCredentials secureCredentials = new SslCredentials(pem);
+            Channel secureChannel = new Channel("localhost", 8080, secureCredentials);
+
+            //Channel channel = new Channel("https://localhost:50051", ChannelCredentials.Insecure);
+
+            var client = new Greeter.GreeterClient(secureChannel);
+
+            //var client = new PostFile.PostFileClient(channel);
+
+            //MemoryStream mbStream = FileHelp.GetTestStream();
+            //mbStream.Position = 0;
             //var bytes= FileHelp.ReadFully(mbStream);
 
-            var bts= ByteString.FromStream(mbStream);
+            //var bts= ByteString.FromStream(mbStream);
 
-            PostFileRequest fileRequest=new PostFileRequest()
-            {
-                Fid = Guid.NewGuid().ToString(),
-                Fdata = bts
-            };
+            //PostFileRequest fileRequest=new PostFileRequest()
+            //{
+            //    Fid = Guid.NewGuid().ToString(),
+            //    Fdata = bts
+            //};
 
             String user = "you";
 
-            //var reply = client.SayHello(new HelloRequest { Name = user });
-            var result=  client.FileUpload(fileRequest);
+            var reply = client.SayHello(new HelloRequest { Name = user });
+            //var result=  client.FileUpload(fileRequest);
 
 
 
-            Console.WriteLine("OssUrl: " + result.OssUrl);
+            Console.WriteLine("OssUrl: " + reply.Message);
 
-            channel.ShutdownAsync().Wait();
+
+
+            secureChannel.ShutdownAsync().Wait();
             Console.WriteLine("Press any key to exit...");
             Console.ReadKey();
         }
